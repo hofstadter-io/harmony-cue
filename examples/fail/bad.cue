@@ -1,0 +1,3 @@
+package bad
+
+foo bar

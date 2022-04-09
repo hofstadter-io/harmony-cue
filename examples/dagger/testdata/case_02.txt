@@ -1,0 +1,10 @@
+exec cue export in.cue
+cmp stdout golden.stdout
+
+-- in.cue --
+cow: "moo"
+
+-- golden.stdout --
+{
+    "cow": "moo"
+}
