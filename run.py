@@ -15,7 +15,7 @@ parser.add_argument('--fmt', help="dagger log format", default="plain")
 args = parser.parse_args()
 
 # get full list from cue
-p = os.popen("cue eval -e actions.all --out text")
+p = os.popen("cue eval -e actions.csv --out text")
 out = p.read().strip()
 actions = list(csv.reader(out.split("\n")))
 
