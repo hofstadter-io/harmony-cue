@@ -7,7 +7,7 @@ import subprocess
 
 # args and flags to the script
 parser = argparse.ArgumentParser()
-parser.add_argument('path', nargs='*', help="dagger do action path")
+parser.add_argument('action', nargs='*', help="dagger do action path")
 parser.add_argument('--cuepath', help="path to local cue repository")
 parser.add_argument('--cue', help="cue version")
 parser.add_argument('--dagger', help="dagger version")
@@ -54,10 +54,12 @@ flags = ["--log-format", args.fmt, "--with", dagger_with]
 if args.no_cache:
     flags.append("--no-cache")
 
+# loop over all available dagger actions (reg/case)
 for action in actions:
     # enable pass through of dagger do args
     match = True
-    for i, p in enumerate(args.path):
+    for i, p in enumerate(args.action):
+        # filter out others when action missing
         if p != action[i]:
             match = False
             break
