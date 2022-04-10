@@ -67,4 +67,10 @@ for action in actions:
     if match:
         cmd = ["dagger", "do"] + action + flags
         print("Running:", " ".join(cmd))
-        subprocess.run(["bash", "-c", " ".join(cmd)], check=True)
+        try: 
+            subprocess.run(["bash", "-c", " ".join(cmd)], check=True)
+        except:
+            # easily grep-able
+            print("HARMONY-FAILURE:", " ".join(cmd))
+
+

@@ -5,6 +5,6 @@ Registry: cuetorials: Registration & {
   ref: "main"
 
   cases: {
-    verify: { _script: "make verify_code", workdir: "/work" }
+    verify: { _script: "make verify_code && make verify_diff", workdir: "/work" }
   }
 }
