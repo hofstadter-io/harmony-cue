@@ -18,11 +18,11 @@ Registration: R=(harmony.Registration & {
         args: ["-c", _script]
         _vers: json.Marshal(R.versions)
         _script: """
+        set -xeuo pipefail
         dagger version
         dagger project update
         tree -d /work/cue.mod
-        echo "DnD Running: dagger do \(_dagger) --with 'actions: versions: \(_vers)'"
-        dagger do \(_dagger) --with 'actions: versions: \(_vers)'
+        dagger do \(_dagger) --with 'actions: versions: \(_vers)' --log-format plain
         """ 
       }
     }
@@ -47,7 +47,7 @@ Registration: R=(harmony.Registration & {
         _script: string
         if R.versions.cue != "local" {
           _script: """
-          set -euo pipefail
+          set -xeuo pipefail
           go version
           go get cuelang.org/go@\(R.versions.cue)
           go mod tidy -compat=1.17
@@ -56,7 +56,7 @@ Registration: R=(harmony.Registration & {
         }
         if R.versions.cue == "local" {
           _script: """
-          set -euo pipefail
+          set -xeuo pipefail
           go version
           go mod edit -replace cuelang.org/go=/localcue
           go mod tidy -compat=1.17

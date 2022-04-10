@@ -40,7 +40,7 @@ actions: {
   // the image test cases are run in
   // here we have a custom / parameterized base image
   runner: build.output
-  build: testers.Image & {
+  build: testers.Build & {
     "versions": versions
     if versions.cue == "local" {
       cuesource: client.filesystem["\(actions.pathToCUE)"].read.contents
