@@ -5,6 +5,12 @@ Registry: hof: Registration & {
   ref: "_dev"
 
   cases: {
-    build: { _goapi: "go run ./cmd/hof", workdir: "/work" }
+    build: { 
+      workdir: "/work"
+      _goapi: """
+        go install ./cmd/hof
+        hof -h
+      """
+    }
   }
 }
