@@ -5,7 +5,6 @@ Registry: self: Registration & {
   ref: "main"
 
   cases: {
-    versions: { _script: "./list.sh", workdir: "/work/examples/versions" }
     cue:      { _cue: ["eval", "in.cue"], workdir: "/work/examples/cue" }
     hof:      { _script: "./test.sh", workdir: "/work/examples/hof" }
     goapi:    { _goapi: "go run main.go", workdir: "/work/examples/go" }
@@ -21,6 +20,30 @@ Registry: self: Registration & {
       pwd
       ls
       ./run.sh
+      """
+    }
+
+    "versions-example": { _script: "./list.sh", workdir: "/work/examples/versions" }
+    "versions-dagger":   {
+      workdir: "/work/examples/versions"
+      _script: """
+      go version
+      cue version
+      dagger version
+      hof version
+      ls /localcue
+      exit 0
+      """
+    }
+    "versions-script":   {
+      workdir: "/work"
+      _script: """
+      go version
+      cue version
+      dagger version
+      hof version
+      ls /localcue
+      exit 0
       """
     }
   }

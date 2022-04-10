@@ -3,6 +3,7 @@ package testers
 import (
   "strings"
 
+  "dagger.io/dagger"
   "dagger.io/dagger/core"
   "universe.dagger.io/docker"
   "universe.dagger.io/git"
@@ -46,6 +47,8 @@ Image: {
     go: string
     testscript: string
   }
+  // provide when cue version is 'local'
+  cuesource: dagger.#FS
 
   // Go based image
   base: Base & {
@@ -57,6 +60,7 @@ Image: {
       git: {}
       make: {}
       "musl-dev": {}
+      tree: {}
     }
   }
 
@@ -95,6 +99,11 @@ Image: {
     if versions.cue != "local" {
       cue: code: remote: "https://github.com/cue-lang/cue" 
     }
+    cue: build: {
+      ldflags: strings.Join([
+        "-X cuelang.org/go/cmd/cue/cmd.version=\(versions.cue)",
+      ], " ")
+    }
 
     hof: {
       code: remote: "https://github.com/hofstadter-io/hof" 
@@ -111,7 +120,17 @@ Image: {
         ], " ")
       }
     }
-    dagger: code: remote: "https://github.com/dagger/dagger" 
+
+    dagger: {
+      code: remote: "https://github.com/dagger/dagger" 
+      build: {
+        ldflags: strings.Join([
+          "-X go.dagger.io/dagger/version.Version=\(versions.dagger)",
+          "-X go.dagger.io/dagger/version.Revision=\(dagger.commit.read.contents)",
+        ], " ")
+      }
+    }
+
     testscript: code: remote: "https://github.com/rogpeppe/go-internal" 
   }
 
@@ -119,7 +138,7 @@ Image: {
   if versions.cue == "local" {
     localcue: go.#Build & {
       container: input: base.output
-      // source: code.output
+      source: cuesource
       package: "./cmd/cue"
     }
   }
@@ -129,19 +148,27 @@ Image: {
     gotools.hof.build.output,
     gotools.dagger.build.output,
     gotools.testscript.build.output,
-    if versions.cue == "local" { localcue.output }
+    if versions.cue == "local" { localcue.output },
     if versions.cue != "local" { gotools.cue.build.output },
   ]
 
   // add the binaries to the base image
   copy: docker.#Build & {
     steps: [{ input: base.output}, ...]
-    steps: [ for bin in bins {
-      docker.#Copy & {
-        contents: bin 
-        dest: "/usr/local/bin"
-      }
-    }]
+    steps: [
+      for bin in bins {
+        docker.#Copy & {
+          contents: bin 
+          dest: "/usr/local/bin"
+        }
+      },
+      if versions.cue == "local" {
+        docker.#Copy & {
+          contents: cuesource
+          dest: "/localcue"
+        }
+      },
+    ]
   }
 
   // the final image users should reference

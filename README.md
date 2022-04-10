@@ -14,6 +14,16 @@ Supports tests using
 You can see all available tools in
 [testers/image.cue](./testers/image.cue)
 
+## Running harmony-cue
+
+```
+./run.py [reg] [case]
+```
+
+- Use `--cue [tag,branch,commit]` to switch the CUE version used.
+- Use `--cuepath ../path/to/cue` to use local CUE repository.
+- See `./run.py -h` for full help message, where you can set more
+
 ## Add a project
 
 To add your project to `harmony-cue`,

@@ -19,10 +19,12 @@ actions: harmony.Harmony
 // for docker-in-docker, also required for dagger-in-dagger
 client: network: "unix:///var/run/docker.sock": connect: dagger.#Socket
 
-// get the current dir
-client: filesystem: "\(actions.pathToCUE)": read: {
-  // CUE type defines expected content
-  contents: dagger.#FS
+if actions.versions.cue == "local" {
+  // get the current dir
+  client: filesystem: "\(actions.pathToCUE)": read: {
+    // CUE type defines expected content
+    contents: dagger.#FS
+  }
 }
 
 actions: {
@@ -40,7 +42,9 @@ actions: {
   runner: build.output
   build: testers.Image & {
     "versions": versions
-    localcue: source: client.filesystem["\(actions.pathToCUE)"].read.contents
+    if versions.cue == "local" {
+      cuesource: client.filesystem["\(actions.pathToCUE)"].read.contents
+    }
   }
 
   // where downstream project code is checked out

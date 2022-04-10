@@ -2,6 +2,7 @@ package registry
 
 import (
   "strings"
+  "encoding/json"
 
   "universe.dagger.io/docker"
   "github.com/hofstadter-io/harmony"
@@ -15,10 +16,13 @@ Registration: R=(harmony.Registration & {
       command: {
         name: "bash"
         args: ["-c", _script]
+        _vers: json.Marshal(R.versions)
         _script: """
         dagger version
         dagger project update
-        dagger do \(_dagger) --with 'actions: versions: cue: "\(R.versions.cue)"'
+        tree /work/cue.mod
+        echo "DnD Running: dagger do \(_dagger) --with 'actions: versions: \(_vers)'"
+        dagger do \(_dagger) --with 'actions: versions: \(_vers)'
         """ 
       }
     }
@@ -40,13 +44,25 @@ Registration: R=(harmony.Registration & {
       command: {
         name: "bash"
         args: ["-c", _script]
-        _script: """
-        set -euo pipefail
-        go version
-        go get cuelang.org/go@\(R.versions.cue)
-        go mod tidy -compat=1.17
-        \(_goapi)
-        """ 
+        _script: string
+        if R.versions.cue != "local" {
+          _script: """
+          set -euo pipefail
+          go version
+          go get cuelang.org/go@\(R.versions.cue)
+          go mod tidy -compat=1.17
+          \(_goapi)
+          """ 
+        }
+        if R.versions.cue == "local" {
+          _script: """
+          set -euo pipefail
+          go version
+          go mod edit -replace cuelang.org/go=/localcue
+          go mod tidy -compat=1.17
+          \(_goapi)
+          """ 
+        }
       }
     }
 

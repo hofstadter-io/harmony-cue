@@ -85,6 +85,30 @@ CueGoApiPlan: WorkdirPlan & {
   }
 }
 
+VersionPlan: WorkdirPlan & {
+  actions: {
+    run: {
+      command: {
+        name: "bash"
+        args: ["-c", _script]
+        _script: """
+        #!/usr/bin/env bash
+        set -euo pipefail
+
+        go version
+        cue version
+        dagger version
+        hof version
+
+        set +e
+        ls /localcue
+        exit 0
+        """
+      }
+    }
+  }
+}
+
 TestscriptPlan: WorkdirPlan & {
   actions: {
     glob: string
