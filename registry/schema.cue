@@ -20,7 +20,7 @@ Registration: R=(harmony.Registration & {
         _script: """
         dagger version
         dagger project update
-        tree /work/cue.mod
+        tree -d /work/cue.mod
         echo "DnD Running: dagger do \(_dagger) --with 'actions: versions: \(_vers)'"
         dagger do \(_dagger) --with 'actions: versions: \(_vers)'
         """ 

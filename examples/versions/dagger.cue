@@ -5,8 +5,8 @@ import (
 )
 
 // todo: how do we handle 'local' cue version in a nested (running dagger from a harmony test case)
-testers.VersionPlan
-// testers.VersionPlan & {
-//   actions: image: testers.Image & { versions: testers.Version & actions.versions }
-//   actions: versions: { ... }
-// }
+// testers.VersionPlan
+testers.VersionPlan & {
+  actions: image: testers.Image & { versions: testers.Versions & actions.versions }
+  actions: versions: { ... }
+}
