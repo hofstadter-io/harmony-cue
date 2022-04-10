@@ -10,6 +10,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('action', nargs='*', help="dagger do action path")
 parser.add_argument('--cuepath', help="path to local cue repository")
 parser.add_argument('--cue', help="cue version")
+parser.add_argument('--hof', help="hof version")
 parser.add_argument('--dagger', help="dagger version")
 parser.add_argument('--go', help="go version")
 parser.add_argument('--fmt', help="dagger log format", default="plain")
@@ -36,6 +37,10 @@ if args.cue is not None:
     if args.cue == "local":
         dagger_with += ", "
     vers += f'cue: "{args.cue}"'
+if args.hof is not None:
+    if vers != "":
+        vers += ", "
+    vers += f'hof: "{args.hof}"'
 if args.go is not None:
     if vers != "":
         vers += ", "
@@ -72,5 +77,3 @@ for action in actions:
         except:
             # easily grep-able
             print("HARMONY-FAILURE:", " ".join(cmd))
-
-

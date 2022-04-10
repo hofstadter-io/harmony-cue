@@ -6,7 +6,7 @@ Registry: examples: Registration & {
 
   cases: {
     cue:      { _cue: ["eval", "in.cue"], workdir: "/work/examples/cue" }
-    // hof:      { _script: "hof -h", workdir: "/work/examples/hof" }
+    hof:      { _script: "hof -h", workdir: "/work" }
     goapi:    { _goapi: "go run main.go", workdir: "/work/examples/go" }
     dagger:   { _dagger: "run", workdir: "/work/examples/dagger" }
     txtar:    { _testscript: "*.txt", workdir: "/work/examples/txtar" }
