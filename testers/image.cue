@@ -105,21 +105,21 @@ Build: {
       ], " ")
     }
 
-    hof: {
-      code: remote: "https://github.com/hofstadter-io/hof" 
-      build: {
-        ldflags: strings.Join([
-          "-s",
-          "-w",
-          "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.Version=\(hof.code.ref)",
-          "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.Commit=\(hof.commit.read.contents)",
-          // "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildDate={{.Date}}",
-          "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.GoVersion=\(versions.go)",
-          "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildOS=\(hof.build.os)",
-          "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildArch=\(hof.build.arch)",
-        ], " ")
-      }
-    }
+    // hof: {
+    //   code: remote: "https://github.com/hofstadter-io/hof" 
+    //   build: {
+    //     ldflags: strings.Join([
+    //       "-s",
+    //       "-w",
+    //       "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.Version=\(hof.code.ref)",
+    //       "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.Commit=\(hof.commit.read.contents)",
+    //       // "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildDate={{.Date}}",
+    //       "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.GoVersion=\(versions.go)",
+    //       "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildOS=\(hof.build.os)",
+    //       "-X github.com/hofstadter-io/hof/cmd/hof/verinfo.BuildArch=\(hof.build.arch)",
+    //     ], " ")
+    //   }
+    // }
 
     dagger: {
       code: remote: "https://github.com/dagger/dagger" 
@@ -145,7 +145,7 @@ Build: {
 
   // collect the bins for looping
   bins: [
-    gotools.hof.build.output,
+    // gotools.hof.build.output,
     gotools.dagger.build.output,
     gotools.testscript.build.output,
     if versions.cue == "local" { localcue.output },
