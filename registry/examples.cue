@@ -1,6 +1,6 @@
 package registry
 
-Registry: self: Registration & {
+Registry: examples: Registration & {
   remote: "github.com/hofstadter-io/harmony-cue"
   ref: "main"
 
@@ -28,12 +28,16 @@ Registry: self: Registration & {
     "versions-script":  {
       workdir: "/work"
       _script: """
-      go version
-      cue version
-      dagger version
-      hof version
-      ls /localcue
-      exit 0
+        #!/usr/bin/env bash
+
+        go version
+        cue version
+        dagger version
+        hof version
+
+        tree -d /work/cue.mod
+        ls /localcue
+        exit 0
       """
     }
   }
