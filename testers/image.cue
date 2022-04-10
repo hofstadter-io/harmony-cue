@@ -38,6 +38,7 @@ Base: {
 	}
 }
 
+// should probably be named 'Build'
 Image: {
   // config
   versions: {

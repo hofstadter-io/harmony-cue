@@ -33,6 +33,7 @@ WorkdirPlan: dagger.#Plan & {
     run: docker.#Run & {
       input: docker.#Image | *image.output
       workdir: "/work"
+      always: true
 
       // mount in source
       mounts: {
