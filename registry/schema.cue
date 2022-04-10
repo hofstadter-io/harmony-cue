@@ -7,7 +7,7 @@ import (
   "github.com/hofstadter-io/harmony"
 )
 
-#Registration: R=(harmony.Registration & {
+Registration: R=(harmony.Registration & {
   // add our short codes 
   cases: [string]: docker.#Run & {
     _dagger?: string

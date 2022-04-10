@@ -1,6 +1,6 @@
 package registry
 
-Registry: hof: #Registration & {
+Registry: hof: Registration & {
   remote: "github.com/hofstadter-io/hof"
   ref: "_dev"
 

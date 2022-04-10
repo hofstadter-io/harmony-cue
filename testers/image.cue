@@ -92,7 +92,10 @@ Image: {
       }
     }
 
-    cue: code: remote: "https://github.com/cue-lang/cue" 
+    if versions.cue != "local" {
+      cue: code: remote: "https://github.com/cue-lang/cue" 
+    }
+
     hof: {
       code: remote: "https://github.com/hofstadter-io/hof" 
       build: {
@@ -112,12 +115,22 @@ Image: {
     testscript: code: remote: "https://github.com/rogpeppe/go-internal" 
   }
 
+  localcue: _
+  if versions.cue == "local" {
+    localcue: go.#Build & {
+      container: input: base.output
+      // source: code.output
+      package: "./cmd/cue"
+    }
+  }
+
   // collect the bins for looping
   bins: [
-    gotools.cue.build.output,
     gotools.hof.build.output,
     gotools.dagger.build.output,
     gotools.testscript.build.output,
+    if versions.cue == "local" { localcue.output }
+    if versions.cue != "local" { gotools.cue.build.output },
   ]
 
   // add the binaries to the base image

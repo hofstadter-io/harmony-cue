@@ -19,7 +19,15 @@ actions: harmony.Harmony
 // for docker-in-docker, also required for dagger-in-dagger
 client: network: "unix:///var/run/docker.sock": connect: dagger.#Socket
 
+// get the current dir
+client: filesystem: "\(actions.pathToCUE)": read: {
+  // CUE type defines expected content
+  contents: dagger.#FS
+}
+
 actions: {
+  // path to a local copy of CUE
+  pathToCUE: string | *"../cue"
 
   // global version config for this harmony
   versions: testers.Versions
@@ -32,6 +40,7 @@ actions: {
   runner: build.output
   build: testers.Image & {
     "versions": versions
+    localcue: source: client.filesystem["\(actions.pathToCUE)"].read.contents
   }
 
   // where downstream project code is checked out

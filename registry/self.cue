@@ -1,6 +1,6 @@
 package registry
 
-Registry: self: #Registration & {
+Registry: self: Registration & {
   remote: "github.com/hofstadter-io/harmony-cue"
   ref: "main"
 

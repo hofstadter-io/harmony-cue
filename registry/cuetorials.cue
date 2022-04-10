@@ -1,6 +1,6 @@
 package registry
 
-Registry: cuetorials: #Registration & {
+Registry: cuetorials: Registration & {
   remote: "github.com/hofstadter-io/cuetorials.com"
   ref: "main"
 

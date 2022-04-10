@@ -8,6 +8,7 @@ import subprocess
 # args and flags to the script
 parser = argparse.ArgumentParser()
 parser.add_argument('path', nargs='*', help="dagger do action path")
+parser.add_argument('--cuepath', help="path to local cue repository", default="../cue")
 parser.add_argument('--cue', help="cue version", default="v0.4.3-beta.2")
 parser.add_argument('--dagger', help="dagger version", default="v0.2.4")
 parser.add_argument('--go', help="go version", default="1.18")
@@ -22,7 +23,7 @@ actions = list(csv.reader(out.split("\n")))
 # build up the injected version CUE code
 versT = (args.cue, args.dagger, args.go)
 versS = 'cue: "{0}", dagger: "{1}", go: "{2}"'.format(*versT)
-dagger_with = f"'actions: versions: {{ {versS} }}'"
+dagger_with = f"'{{ actions: versions: {{ {versS} }}, _pathToCUE: \"{args.cuepath}\" }}'"
 flags = ["--log-format", args.fmt, "--with", dagger_with]
 
 for action in actions:
