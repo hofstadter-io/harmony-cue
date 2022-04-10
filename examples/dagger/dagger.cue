@@ -10,6 +10,6 @@ testers.TestscriptPlan & {
   actions: glob: "testdata/*.txt"
 
   // this is needed so the versions are dynamic (from the driver)
-  actions: image: testers.Image & { versions: testers.Version & actions.versions }
+  actions: builder: testers.Build & { versions: testers.Version & actions.versions }
   actions: versions: { ... }
 }

@@ -20,7 +20,7 @@ WorkdirPlan: dagger.#Plan & {
     versions: Versions
 
     // start with a hidden ref to out base image
-    image: {} 
+    image: docker.#Image
 
     // copy in source
     // source: docker.#Copy & {
@@ -31,7 +31,7 @@ WorkdirPlan: dagger.#Plan & {
     
     // default Run with common config set 
     run: docker.#Run & {
-      input: image.output
+      input: image
       workdir: "/work"
       always: true
 

@@ -38,8 +38,7 @@ Base: {
 	}
 }
 
-// should probably be named 'Build'
-Image: {
+Build: {
   // config
   versions: {
     cue: string
