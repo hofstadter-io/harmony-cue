@@ -107,6 +107,7 @@ VersionPlan: WorkdirPlan & {
         cue version
         dagger version
         hof version
+        python3 --version
 
         tree -d /work/cue.mod
         ls /localcue

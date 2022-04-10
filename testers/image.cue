@@ -60,6 +60,7 @@ Build: {
       git: {}
       make: {}
       "musl-dev": {}
+      python3: {}
       tree: {}
     }
   }

@@ -34,10 +34,24 @@ Registry: examples: Registration & {
         cue version
         dagger version
         hof version
+        python3 --version
 
         tree -d /work/cue.mod
         ls /localcue
         exit 0
+      """
+    }
+
+    inception:  {
+      workdir: "/work"
+      _script: """
+        #!/usr/bin/env bash
+        dagger project update
+        mkdir -p cue.mod/pkg/github.com/hofstadter-io
+        pushd cue.mod/pkg/github.com/hofstadter-io
+        git clone https://github.com/hofstadter-io/harmony
+        popd
+        ./run.py examples versions-dagger
       """
     }
   }
