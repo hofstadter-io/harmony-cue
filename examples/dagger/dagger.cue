@@ -8,8 +8,10 @@ import (
 // also workdir?
 testers.TestscriptPlan & {
   actions: glob: "testdata/*.txt"
-
-  // this is needed so the versions are dynamic (from the driver)
-  actions: builder: testers.Build & { versions: testers.Version & actions.versions }
-  actions: versions: { ... }
+  // shouldn't really need this?
+  actions: {
+    versions: { ... } // filled with defaults
+    builder: testers.Build & { versions: testers.Versions & actions.versions }
+    image: builder.output
+  }
 }
