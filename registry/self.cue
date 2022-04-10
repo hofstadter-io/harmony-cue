@@ -24,7 +24,7 @@ Registry: self: Registration & {
     }
 
     "versions-example": { _script: "./list.sh", workdir: "/work/examples/versions" }
-    "versions-dagger":  { _dagger: "run", workdir: "/work/examples/versions" }
+    "versions-dagger":  { _dagger: "run --plan ./examples/versions/dagger.cue", workdir: "/work" }
     "versions-script":  {
       workdir: "/work"
       _script: """

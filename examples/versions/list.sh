@@ -6,6 +6,8 @@ cue version
 dagger version
 hof version
 
+tree -d /work/cue.mod
+
 set +e
 ls /localcue
 exit 0

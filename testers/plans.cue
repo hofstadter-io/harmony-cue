@@ -102,14 +102,13 @@ VersionPlan: WorkdirPlan & {
         args: ["-c", _script]
         _script: """
         #!/usr/bin/env bash
-        set -euo pipefail
 
         go version
         cue version
         dagger version
         hof version
 
-        set +e
+        tree -d /work/cue.mod
         ls /localcue
         exit 0
         """
