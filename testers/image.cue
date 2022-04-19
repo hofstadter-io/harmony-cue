@@ -46,6 +46,8 @@ Build: {
     dagger: string
     go: string
     testscript: string
+    "txtar-c": testscript
+    "txtar-x": testscript
   }
   // provide when cue version is 'local'
   cuesource: dagger.#FS
@@ -127,6 +129,8 @@ Build: {
     }
 
     testscript: code: remote: "https://github.com/rogpeppe/go-internal" 
+    "txtar-c": code: remote: "https://github.com/rogpeppe/go-internal" 
+    "txtar-x": code: remote: "https://github.com/rogpeppe/go-internal" 
   }
 
   localcue: _
@@ -143,6 +147,8 @@ Build: {
     gotools.hof.build.output,
     gotools.dagger.build.output,
     gotools.testscript.build.output,
+    gotools."txtar-c".build.output,
+    gotools."txtar-x".build.output,
     if versions.cue == "local" { localcue.output },
     if versions.cue != "local" { gotools.cue.build.output },
   ]
