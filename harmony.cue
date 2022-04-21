@@ -37,12 +37,14 @@ actions: {
   pathToCUE: string | *"../cue"
 
   // global version config for this harmony
-  versions: testers.Versions
+  versions: testers.Versions & {
+    self: string | *"dirty"
+  }
 
   // the registry of downstream projects
   "registry": registry.Registry
 
-  name: "hofstadter/harmony-cue:latest"
+  name: "hofstadter/harmony-cue:\(versions.self)"
 
   // the image test cases are run in
   // here we have a custom / parameterized base image
@@ -76,7 +78,13 @@ actions: {
     }
   }
 
-  runner: pull.image
+  runner: docker.#Image
+  if versions.self == "dirty" {
+    runner: build.output
+  }
+  if versions.self != "dirty" {
+    runner: pull.image
+  }
 
   // where downstream project code is checked out
   workdir: "/work" 

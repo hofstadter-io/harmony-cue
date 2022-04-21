@@ -8,6 +8,7 @@ import subprocess
 # args and flags to the script
 parser = argparse.ArgumentParser()
 parser.add_argument('action', nargs='*', help="dagger do action path")
+parser.add_argument('--self', help="own version, for push/pull mainly")
 parser.add_argument('--cuepath', help="path to local cue repository")
 parser.add_argument('--cue', help="cue version")
 parser.add_argument('--hof', help="hof version")
@@ -49,6 +50,10 @@ if args.dagger is not None:
     if vers != "":
         vers += ", "
     vers += f'dagger: "{args.dagger}"'
+if args.self is not None:
+    if vers != "":
+        vers += ", "
+    vers += f'self: "{args.self}"'
 
 if vers != "":
     dagger_with += f"versions: {{ {vers} }}"
@@ -60,6 +65,7 @@ if args.no_cache:
     flags.append("--no-cache")
 
 # loop over all available dagger actions (reg/case)
+matchAny = False
 for action in actions:
     # enable pass through of dagger do args
     match = True
@@ -70,6 +76,7 @@ for action in actions:
             break
 
     if match:
+        matchAny = True
         cmd = ["dagger", "do"] + action + flags
         print("Running:", " ".join(cmd))
         try: 
@@ -77,3 +84,13 @@ for action in actions:
         except:
             # easily grep-able
             print("HARMONY-FAILURE:", " ".join(cmd))
+
+if not matchAny:
+
+    cmd = ["dagger", "do"] + action + flags
+    print("Running:", " ".join(cmd))
+    try: 
+        subprocess.run(["bash", "-c", " ".join(cmd)], check=True)
+    except:
+        # easily grep-able
+        print("HARMONY-FAILURE:", " ".join(cmd))
