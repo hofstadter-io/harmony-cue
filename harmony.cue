@@ -78,12 +78,9 @@ actions: {
     }
   }
 
-  runner: docker.#Image
+  runner: docker.#Image | *pull.image
   if versions.self == "dirty" {
     runner: build.output
-  }
-  if versions.self != "dirty" {
-    runner: pull.image
   }
 
   // where downstream project code is checked out

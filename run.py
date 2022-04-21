@@ -87,7 +87,7 @@ for action in actions:
 
 if not matchAny:
 
-    cmd = ["dagger", "do"] + action + flags
+    cmd = ["dagger", "do"] + args.action + flags
     print("Running:", " ".join(cmd))
     try: 
         subprocess.run(["bash", "-c", " ".join(cmd)], check=True)
